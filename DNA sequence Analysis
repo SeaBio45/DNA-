@@ -1,0 +1,152 @@
+import java.util.Scanner;   //import the java class scanner for user 
+
+/**
+ * DNASequenceAnalyzer class that performs various operations on a DNA sequence.
+ * 
+ * It can:
+ * - Count the occurrences of each nucleotide (A, T, C, G)
+ * - Calculate the GC content of the sequence
+ * - Transcribe the DNA sequence to mRNA
+ * - Find the complementary DNA strand
+ */
+public class DNASequenceAnalyzer {
+
+    /**
+     * Counts the occurrences of each nucleotide (A, T, C, G) in a DNA sequence.
+     * 
+     * @param sequence The DNA sequence to analyze.
+     * @return An array with the counts of A, T, C, and G respectively.
+     */
+    public static int[] countNucleotides(String sequence) {
+        int[] counts = new int[4]; // Index 0: A, 1: T, 2: C, 3: G
+
+        for (int i = 0; i < sequence.length(); i++) {
+            char nucleotide = Character.toUpperCase(sequence.charAt(i));
+            switch (nucleotide) {
+                case 'A':
+                    counts[0]++;
+                    break;
+                case 'T':
+                    counts[1]++;
+                    break;
+                case 'C':
+                    counts[2]++;
+                    break;
+                case 'G':
+                    counts[3]++;
+                    break;
+                default:
+                    System.out.println("Invalid nucleotide: " + nucleotide);
+                    break;
+            }
+        }
+
+        return counts;
+    }
+
+    /**
+     * Calculates the GC content (percentage of G and C nucleotides) of a DNA sequence.
+     * 
+     * @param sequence The DNA sequence to analyze.
+     * @return The GC content as a percentage.
+     */
+    public static double calculateGCContent(String sequence) {
+        int gCount = 0;
+        int cCount = 0;
+
+        for (int i = 0; i < sequence.length(); i++) {
+            char nucleotide = Character.toUpperCase(sequence.charAt(i));
+            if (nucleotide == 'G') {
+                gCount++;
+            } else if (nucleotide == 'C') {
+                cCount++;
+            }
+        }
+
+        return (double) (gCount + cCount) / sequence.length() * 100;
+    }
+
+    /**
+     * Transcribes a DNA sequence into mRNA by replacing all 'T' nucleotides with 'U'.
+     * 
+     * @param sequence The DNA sequence to transcribe.
+     * @return The transcribed mRNA sequence.
+     */
+    public static String transcribeToMRNA(String sequence) {
+        return sequence.toUpperCase().replace('T', 'U');
+    }
+
+    /**
+     * Generates the complementary DNA strand.
+     * In the complementary strand:
+     * - A pairs with T
+     * - T pairs with A
+     * - C pairs with G
+     * - G pairs with C
+     * 
+     * @param sequence The original DNA sequence.
+     * @return The complementary DNA strand.
+     */
+    public static String generateComplementaryStrand(String sequence) {
+        StringBuilder complementaryStrand = new StringBuilder();
+
+        for (int i = 0; i < sequence.length(); i++) {
+            char nucleotide = Character.toUpperCase(sequence.charAt(i));
+            switch (nucleotide) {
+                case 'A':
+                    complementaryStrand.append('T');
+                    break;
+                case 'T':
+                    complementaryStrand.append('A');
+                    break;
+                case 'C':
+                    complementaryStrand.append('G');
+                    break;
+                case 'G':
+                    complementaryStrand.append('C');
+                    break;
+                default:
+                    System.out.println("Invalid nucleotide: " + nucleotide);
+                    break;
+            }
+        }
+
+        return complementaryStrand.toString();
+    }
+
+    /**
+     * Main method to run the DNA Sequence Analyzer. It prompts the user for a DNA sequence
+     * and performs various operations on it.
+     * 
+     * @param args Command line arguments (not used here).
+     */
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input: Get DNA sequence from user
+        System.out.println("Enter a DNA sequence (A, T, C, G only): ");
+        String dnaSequence = scanner.nextLine();
+
+        // Count nucleotide occurrences
+        int[] nucleotideCounts = countNucleotides(dnaSequence);
+        System.out.println("Nucleotide counts:");
+        System.out.println("A: " + nucleotideCounts[0]);
+        System.out.println("T: " + nucleotideCounts[1]);
+        System.out.println("C: " + nucleotideCounts[2]);
+        System.out.println("G: " + nucleotideCounts[3]);
+
+        // Calculate GC content
+        double gcContent = calculateGCContent(dnaSequence);
+        System.out.println("GC Content: " + gcContent + "%");
+
+        // Transcribe DNA to mRNA
+        String mRNASequence = transcribeToMRNA(dnaSequence);
+        System.out.println("Transcribed mRNA: " + mRNASequence);
+
+        // Generate complementary DNA strand
+        String complementaryStrand = generateComplementaryStrand(dnaSequence);
+        System.out.println("Complementary DNA strand: " + complementaryStrand);
+
+        scanner.close();
+    }
+}
